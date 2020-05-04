@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PDR.PatientBooking.Data;
 using PDR.PatientBooking.Service.IoC;
+using PDR.PatientBookingApi.Services;
 
 namespace PDR.PatientBookingApi
 {
@@ -22,6 +23,8 @@ namespace PDR.PatientBookingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IBookingService, BookingService>();
+
             services.AddControllers();
             services.AddDbContext<PatientBookingContext>(options => options
                     .UseInMemoryDatabase(databaseName: "PatientBooking")

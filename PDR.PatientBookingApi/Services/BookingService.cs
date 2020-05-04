@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using PDR.PatientBooking.Data;
-using PDR.PatientBookingApi.Controllers;
 
 namespace PDR.PatientBookingApi.Services
 {
@@ -15,6 +12,11 @@ namespace PDR.PatientBookingApi.Services
 
     public class BookingService : IBookingService
     {
+        public BookingService()
+        {
+            
+        }
+
         public dynamic GetBookings(PatientBookingContext ctx, int doctorId, string daystring = null)
         {
             var bookings = ctx.Order.ToList();
