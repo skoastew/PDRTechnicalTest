@@ -4,6 +4,7 @@ using PDR.PatientBooking.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PDR.PatientBookingApi.Services;
 
 namespace PDR.PatientBookingApi.Controllers
 {
@@ -12,35 +13,28 @@ namespace PDR.PatientBookingApi.Controllers
     public class BookingController : ControllerBase
     {
         private readonly PatientBookingContext _context;
+        private readonly IBookingService _bookingService;
 
-        public BookingController(PatientBookingContext context)
+        public BookingController(PatientBookingContext context,
+            IBookingService bookingService)
         {
             _context = context;
+            _bookingService = bookingService;
         }
 
         [HttpGet("doctor/{doctorId}")]
-        public IActionResult GetByDoctorId(long doctorId)
+        public IActionResult GetByDoctorId(int doctorId)
         {
-            var bookings = _context.Order.ToList();
+            var objResponse = _bookingService.GetBookings(_context, doctorId);
 
-            var bookings2 = bookings.Where(x => x.DoctorId == doctorId).ToList();
-
-            var bookings3 = new List<MyOrderResult>();
-            for (var i = 0; i < bookings2.Count(); i++)
-            {
-                bookings3.Add(new MyOrderResult());
-                bookings3[i].DoctorId = bookings2[i].DoctorId;
-                bookings3[i].StartTime = bookings2[i].StartTime;
-                bookings3[i].EndTime = bookings2[i].StartTime;
-                bookings3[i].PatientId = bookings2[i].PatientId;
-                bookings3[i].SurgeryType = (int)bookings2[i].GetSurgeryType();
-            }
-
-            var bookings4 = bookings3.OrderBy(x => x.StartTime);
-
-            return Ok(bookings4);
+            return Ok(objResponse);
         }
 
+        [HttpGet("doctor/{doctorId}/{daystring}")]
+        public IActionResult GetByDoctorId(long doctorId, string daystring)
+        {
+            return Ok(_bookingService.GetBookings(_context, (int) doctorId, daystring));
+        }
 
 
         [HttpGet("doctor/{doctorId}/latest")]
