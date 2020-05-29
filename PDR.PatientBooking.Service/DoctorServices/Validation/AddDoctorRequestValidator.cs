@@ -15,7 +15,9 @@ namespace PDR.PatientBooking.Service.DoctorServices.Validation
         public AddDoctorRequestValidator(PatientBookingContext context)
         {
             _context = context;
-            _emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", RegexOptions.Compiled);
+            // This includes + as a valid character in an email address
+            // although that is not correct for a real email address it is used internally
+            _emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.+]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", RegexOptions.Compiled);
         }
 
         public PdrValidationResult ValidateRequest(AddDoctorRequest request)

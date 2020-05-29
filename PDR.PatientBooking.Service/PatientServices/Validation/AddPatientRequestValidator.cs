@@ -3,16 +3,21 @@ using PDR.PatientBooking.Service.PatientServices.Requests;
 using PDR.PatientBooking.Service.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PDR.PatientBooking.Service.PatientServices.Validation
 {
     public class AddPatientRequestValidator : IAddPatientRequestValidator
     {
         private readonly PatientBookingContext _context;
+        private readonly Regex _emailRegex;
 
         public AddPatientRequestValidator(PatientBookingContext context)
         {
             _context = context;
+            // This includes + as a valid character in an email address
+            // although that is not correct for a real email address it is used internally
+            _emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.+]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", RegexOptions.Compiled);
         }
 
         public PdrValidationResult ValidateRequest(AddPatientRequest request)
@@ -22,6 +27,9 @@ namespace PDR.PatientBooking.Service.PatientServices.Validation
             if (MissingRequiredFields(request, ref result))
                 return result;
 
+            if (InvalidEmailAddress(request, ref result))
+                return result;
+
             if (PatientAlreadyInDb(request, ref result))
                 return result;
 
@@ -29,6 +37,15 @@ namespace PDR.PatientBooking.Service.PatientServices.Validation
                 return result;
 
             return result;
+        }
+
+        public bool InvalidEmailAddress(AddPatientRequest request, ref PdrValidationResult result)
+        {
+            if (_emailRegex.IsMatch(request.Email)) return false;
+
+            result.Errors.Add("Email must be a valid email address");
+            result.PassedValidation = false;
+            return true;
         }
 
         private bool MissingRequiredFields(AddPatientRequest request, ref PdrValidationResult result)
