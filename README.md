@@ -5,9 +5,9 @@
 - 2020-05-29 10:32 Work/Personal GIT SSH setup
 - 2020-05-29 10:57 Work/Personal GIT acutallu using it now?
 
-`We’d like you to submit your work as a github repository (or other public source control provider repository) where possible. As you complete the exercise we’d like you to commit regularly, with appropriate commit messages so that we can gain an understanding of the process you used to reach your eventual solution.
-
-If you are not able to provide a link to a repository, then a zip file of the project will suffice.`
+`We’d like you to submit your work as a github repository (or other public source control provider repository) where possible. As you complete the exercise we’d like you to commit regularly, with appropriate commit messages so that we can gain an understanding of the process you used to reach your eventual solution.`
+``
+`If you are not able to provide a link to a repository, then a zip file of the project will suffice.`
 
 **SRA**
 
