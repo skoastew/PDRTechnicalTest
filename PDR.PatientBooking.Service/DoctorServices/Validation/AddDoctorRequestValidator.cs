@@ -3,16 +3,19 @@ using PDR.PatientBooking.Service.DoctorServices.Requests;
 using PDR.PatientBooking.Service.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PDR.PatientBooking.Service.DoctorServices.Validation
 {
     public class AddDoctorRequestValidator : IAddDoctorRequestValidator
     {
         private readonly PatientBookingContext _context;
+        private readonly Regex _emailRegex;
 
         public AddDoctorRequestValidator(PatientBookingContext context)
         {
             _context = context;
+            _emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", RegexOptions.Compiled);
         }
 
         public PdrValidationResult ValidateRequest(AddDoctorRequest request)
@@ -22,10 +25,22 @@ namespace PDR.PatientBooking.Service.DoctorServices.Validation
             if (MissingRequiredFields(request, ref result))
                 return result;
 
+            if (InvalidEmailAddress(request, ref result))
+                return result;
+
             if (DoctorAlreadyInDb(request, ref result))
                 return result;
 
             return result;
+        }
+
+        public bool InvalidEmailAddress(AddDoctorRequest request, ref PdrValidationResult result)
+        {
+            if (_emailRegex.IsMatch(request.Email)) return false;
+
+            result.Errors.Add("Email must be a valid email address");
+            result.PassedValidation = false;
+            return true;
         }
 
         public bool MissingRequiredFields(AddDoctorRequest request, ref PdrValidationResult result)

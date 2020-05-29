@@ -109,8 +109,6 @@ namespace PDR.PatientBooking.Service.Tests.DoctorServices.Validation
         [TestCase("user@")]
         [TestCase("@")]
         [TestCase("user")]
-        [TestCase(null)]
-        [TestCase("")]
         public void ValidateRequest_InvalidEmail_ReturnsFailedValidationResult(string email)
         {
             //arrange
@@ -123,6 +121,22 @@ namespace PDR.PatientBooking.Service.Tests.DoctorServices.Validation
             //assert
             res.PassedValidation.Should().BeFalse();
             res.Errors.Should().Contain("Email must be a valid email address");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void ValidateRequest_BlankEmail_ReturnsFailedValidationResult(string email)
+        {
+            //arrange
+            var request = GetValidRequest();
+            request.Email = email;
+
+            //act
+            var res = _addDoctorRequestValidator.ValidateRequest(request);
+
+            //assert
+            res.PassedValidation.Should().BeFalse();
+            res.Errors.Should().Contain("Email must be populated");
         }
 
         [TestCase("user@domain.com")]
