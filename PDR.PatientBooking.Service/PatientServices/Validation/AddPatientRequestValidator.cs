@@ -15,8 +15,6 @@ namespace PDR.PatientBooking.Service.PatientServices.Validation
         public AddPatientRequestValidator(PatientBookingContext context)
         {
             _context = context;
-            // This includes + as a valid character in an email address
-            // although that is not correct for a real email address it is used internally
             _emailRegex = new Regex(@"^([a-zA-Z0-9_\-\.+]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", RegexOptions.Compiled);
         }
 

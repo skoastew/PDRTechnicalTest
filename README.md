@@ -54,6 +54,22 @@ What we want is an understanding of how they approach the dev work: We tell them
 
 ### Test Bugs ###
 
-Bug **AddDoctor_AddsDoctorToContextWithGeneratedId**
+1. Bug **AddDoctor_AddsDoctorToContextWithGeneratedId**
 
-​	This is horrid - and what does it actually tell us?
+   ​	This is horrid - and what does it actually tell us?
+
+2. Bug  **ValidateRequest_InvalidEmail_ReturnsFailedValidationResult**
+
+   ​	Nice
+
+3. Bug **AddPatient_AddsPatientToContextWithGeneratedId**
+
+   ​	This is just bug 1 for a different entity so it really doesn't tell us anything
+
+4. Bug **ValidateRequest_InvalidEmail_ReturnsFailedValidationResult**
+
+   ​	Ditto bug 2
+
+5. Bug **ValidateRequest_ClinicDoesNotExist_ReturnsFailedValidationResult**
+
+   ​	/me shrugs
