@@ -7,8 +7,6 @@
 
 `We’d like you to submit your work as a github repository (or other public source control provider repository) where possible. As you complete the exercise we’d like you to commit regularly, with appropriate commit messages so that we can gain an understanding of the process you used to reach your eventual solution.`
 
-` `
-
 `If you are not able to provide a link to a repository, then a zip file of the project will suffice.`
 
 **SRA**
